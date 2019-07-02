@@ -1,18 +1,23 @@
-let beep = 0
-const alarm = function(time) {
-    if (isNaN(time)) {
-        return "not a number"
+const stdin = process.stdin;
+stdin.setRawMode(true);
+stdin.setEncoding('utf8');
+
+
+stdin.on('data', (key) => {
+    process.stdout.write('');
+    if (key === '\u0003') {
+        console.log("Thanks for using me, ciao!\n")
+        process.exit();
     }
-    if (time < 0 ) {
-        return "Negative value"
+    if (key === 'b') {
+        process.stdout.write('\x07');
     }
-    for (const items of time) {
-        beep = items * 1000
+    if (key > 0 && key < 10) {
+        console.log("Setting timer for " + key + " seconds\n")
+        time = key * 1000
         setTimeout(() => {
-            process.stdout.write('\x07');
-            console.log("beep")
-        }, beep);  
-        
+            process.stdout.write('beep\n');
+        }, time);
     }
-}
-alarm(process.argv.splice(2))
+});
+
